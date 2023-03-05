@@ -5,18 +5,19 @@ import Field from "./components/Field/Field";
 import Numbers from "./components/Numbers/Numbers";
 import Smiles from "./components/Smiles/Smiles";
 
-import {generateAreaArray} from "./assets/utils";
+import {Config, FieldType, SmilesType} from "./assets/js/const";
+import {generateAreaArray} from "./assets/js/utils";
 
 const App = () => {
     const [area, setArea] = useState([]);
     const [firstClick, setFirstClick] = useState(true);
-    const [smileClass, setSmileClass] = useState('normal');
+    const [smileClass, setSmileClass] = useState(SmilesType.NORMAL);
     const [progress, setProgress] = useState(false);
     const [flags, setFlag] = useState(0);
     const [timer, setTimer] = useState(0);
     const tick = useRef(null);
 
-    const bombsOnArea = 40;
+    const bombsOnArea = Config.MINES;
     let openFieldCounter;
 
     useEffect(() => {
@@ -31,12 +32,12 @@ const App = () => {
         let bombCounter = bombCount;
 
         while (bombCounter) {
-            const row = Math.floor(Math.random() * 16);
-            const field = Math.floor(Math.random() * 16);
+            const row = Math.floor(Math.random() * Config.SIDE);
+            const field = Math.floor(Math.random() * Config.SIDE);
             const entity = areaArray[row][field];
 
-            if (entity.type === 'empty' && !entity.status && firstObject.row !== row && firstObject.field !== field) {
-                entity.type = 'bomb';
+            if (entity.type === FieldType.EMPTY && !entity.status && firstObject.row !== row && firstObject.field !== field) {
+                entity.type = FieldType.BOMB;
                 entity.neighbors = -1;
                 incrementNeighbors(row + 1, field, areaArray);
                 incrementNeighbors(row - 1, field, areaArray);
@@ -67,8 +68,8 @@ const App = () => {
     }
 
     const incrementNeighbors = (row, field, areaArray) => {
-        if (row >= 0 && row < 16 && field >= 0 && field < 16) {
-            if (areaArray[row][field].type !== 'bomb') {
+        if (row >= 0 && row < Config.SIDE && field >= 0 && field < Config.SIDE) {
+            if (areaArray[row][field].type !== FieldType.BOMB) {
                 return areaArray[row][field].neighbors++;
             }
         }
@@ -93,7 +94,7 @@ const App = () => {
         if (firstClick) {
             setFirstClick(false);
             setProgress(true);
-            entity.type ='empty';
+            entity.type = FieldType.EMPTY;
             entity.flag = false;
             entity.question = false;
 
@@ -109,7 +110,7 @@ const App = () => {
                 entity.flag = callback.flag;
             }
 
-            if (entity.type === 'bomb' && !callback.flag && !callback.question && callback.status) {
+            if (entity.type === FieldType.BOMB && !callback.flag && !callback.question && callback.status) {
                 loseGame(row, field);
             }
             if (!callback.flag && !callback.question && callback.status) {
@@ -124,7 +125,7 @@ const App = () => {
     const openFields = (row, field, areaArray) => {
         const stack = [];
         const add = (row, field) => {
-            if (row >= 0 && row < 16 && field >= 0 && field < 16) {
+            if (row >= 0 && row < Config.SIDE && field >= 0 && field < Config.SIDE) {
                 if (areaArray[row][field].status) return;
 
                 stack.push([row, field]);
@@ -155,7 +156,7 @@ const App = () => {
     const restartGame = () => {
         setTimer(0);
         setFirstClick(true);
-        setSmileClass('normal');
+        setSmileClass(SmilesType.NORMAL);
         setFlag(0);
         openFieldCounter = 0;
         initArea();
@@ -167,13 +168,13 @@ const App = () => {
 
             for (let row of areaArray) {
                 for (let field of row) {
-                    if (field.type === 'bomb') field.type = 'bomb-cleared';
+                    if (field.type === FieldType.BOMB) field.type = FieldType.BOMB_CLEARED;
                     field.endGame = true;
                 }
             }
             setFlag(bombsOnArea);
             setProgress(false);
-            setSmileClass('cool');
+            setSmileClass(SmilesType.COOL);
             clearInterval(tick.current);
             updateArea(areaArray);
         }
@@ -184,14 +185,14 @@ const App = () => {
 
         for (let row of areaArray) {
             for (let field of row) {
-                if (field.type === 'bomb' && field.flag) field.type = 'bomb-cleared';
+                if (field.type === FieldType.BOMB && field.flag) field.type = FieldType.BOMB_CLEARED;
                 field.endGame = true;
             }
         }
 
-        areaArray[row][field].type = 'bomb-boom';
+        areaArray[row][field].type = FieldType.BOMB_BOOM;
         setProgress(false);
-        setSmileClass('die');
+        setSmileClass(SmilesType.DIE);
         clearInterval(tick.current);
         updateArea(areaArray);
     }
@@ -203,14 +204,15 @@ const App = () => {
                 <Numbers number={flags - bombsOnArea} />
             </div>
 
-            <div className="minesweeper__smile">
-                <Smiles onClick={restartGame} type={smileClass} />
+            <div onClick={restartGame} className="minesweeper__smile">
+                <Smiles type={smileClass} />
             </div>
 
             <div className="minesweeper__timer flex">
                 <Numbers number={timer} />
             </div>
         </div>
+
         {<div className="minesweeper__area">
             {area.map((row, rowIndex) => {
                 return <div className="minesweeper__row flex"

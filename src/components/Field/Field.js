@@ -1,11 +1,13 @@
 import './fields.css';
 
 import {useEffect, useState} from "react";
-import {getFieldNumberClass} from "../../assets/utils";
+
+import {FieldType, SmilesType} from "../../assets/js/const";
+import {getFieldNumberClass} from "../../assets/js/utils";
 
 const Field = (props) => {
     const [fieldClass, setFieldClass] = useState('hidden');
-    const [type, setType] = useState('empty');
+    const [type, setType] = useState(FieldType.EMPTY);
     const [status, setStatus] = useState(false);
     const [flag, setFlag] = useState(false);
     const [question, setQuestion] = useState(false);
@@ -28,9 +30,9 @@ const Field = (props) => {
 
     const getClass = (entity) => {
         if (entity.endGame) {
-            if (entity.type === 'bomb-boom') {
+            if (entity.type === FieldType.BOMB_BOOM) {
                 setFieldClass(entity.type);
-            } else if (entity.type === 'bomb-cleared') {
+            } else if (entity.type === FieldType.BOMB_CLEARED) {
                 setFieldClass(entity.type);
             } else {
                 setFieldClass(getNeighborsClass(entity.neighbors));
@@ -38,9 +40,9 @@ const Field = (props) => {
         } else if (entity.status) {
             setFieldClass(getNeighborsClass(entity.neighbors));
         } else if (!entity.status && entity.flag) {
-            setFieldClass('flag');
+            setFieldClass(FieldType.FLAG);
         } else if (!entity.status && entity.question) {
-            setFieldClass('question');
+            setFieldClass(FieldType.QUESTION);
         } else {
             setFieldClass('hidden');
         }
@@ -63,19 +65,19 @@ const Field = (props) => {
             event.preventDefault();
 
             if (!flag && !question) {
-                let newType = type === 'bomb' ? 'bomb-cleared' : type;
+                let newType = type === FieldType.BOMB ? FieldType.BOMB_CLEARED : type;
 
                 setType(newType);
                 setFlag(true);
-                setFieldClass('flag');
+                setFieldClass(FieldType.FLAG);
                 updateField(type, false, true, false);
             } else if (flag && !question) {
-                let newType = type === 'bomb-cleared' ? 'bomb' : type;
+                let newType = type === FieldType.BOMB_CLEARED ? FieldType.BOMB : type;
 
                 setType(newType);
                 setFlag(false);
                 setQuestion(true);
-                setFieldClass('question');
+                setFieldClass(FieldType.QUESTION);
                 updateField(newType, false, false, true);
             } else if(!flag && question) {
                 setQuestion(false);
@@ -101,13 +103,13 @@ const Field = (props) => {
     return (
         <div onClick={() => leftClick()}
              onMouseDown={() => {
-                 updateSmile('scary')
+                 updateSmile(SmilesType.SCARY)
              }}
              onMouseUp={() => {
-                 updateSmile('normal');
+                 updateSmile(SmilesType.NORMAL);
              }}
              onMouseLeave={() => {
-                 updateSmile('normal');
+                 updateSmile(SmilesType.NORMAL);
              }}
              onContextMenu={event => rightCLick(event)}
              className={'fields ' + fieldClass}

@@ -1,7 +1,8 @@
 import './numbers.css';
 
-import {getNumberClass} from "../../assets/utils";
 import {useEffect, useState} from "react";
+
+import {getNumberClass} from "../../assets/js/utils";
 
 const Numbers = (props) => {
     const [number, setNumber] = useState('000')

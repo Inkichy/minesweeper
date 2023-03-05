@@ -2,8 +2,10 @@ import './smiles.css';
 
 import {useEffect, useState} from "react";
 
+import {SmilesType} from "../../assets/js/const";
+
 const Smiles = (props) => {
-    const [smileType, setSmileType] = useState('normal')
+    const [smileType, setSmileType] = useState(SmilesType.NORMAL)
 
     useEffect(() => {
         setSmileType(props.type);

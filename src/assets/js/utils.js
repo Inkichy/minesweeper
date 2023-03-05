@@ -1,8 +1,10 @@
+import {Config, FieldType} from "./const";
+
 export const generateAreaArray = () => {
-    return Array.from({length: 16}
-        , () => Array.from({length: 16}
+    return Array.from({length: Config.SIDE}
+        , () => Array.from({length: Config.SIDE}
             , () => ({
-                type: 'empty',
+                type: FieldType.EMPTY,
                 status: false,
                 flag: false,
                 question: false,
@@ -14,9 +16,9 @@ export const generateAreaArray = () => {
 export const getFieldNumberClass = (number) => {
     switch (number) {
         case -1:
-            return 'bomb';
+            return FieldType.BOMB;
         case 0:
-            return 'empty';
+            return FieldType.EMPTY;
         case 1:
             return 'one';
         case 2:
@@ -34,7 +36,7 @@ export const getFieldNumberClass = (number) => {
         case 8:
             return 'eight';
         default:
-            return 'empty';
+            return FieldType.EMPTY;
     }
 }
 
