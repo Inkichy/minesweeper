@@ -67,14 +67,6 @@ const App = () => {
         }, 1000);
     }
 
-    const incrementNeighbors = (row, field, areaArray) => {
-        if (row >= 0 && row < Config.SIDE && field >= 0 && field < Config.SIDE) {
-            if (areaArray[row][field].type !== FieldType.BOMB) {
-                return areaArray[row][field].neighbors++;
-            }
-        }
-    }
-
     const updateArea = (callback) => {
         if (progress) {
             const fullArea = [].concat(...callback);
@@ -120,6 +112,14 @@ const App = () => {
             setFlag([].concat(...area).filter(item => item.flag).length);
         }
 
+    }
+
+    const incrementNeighbors = (row, field, areaArray) => {
+        if (row >= 0 && row < Config.SIDE && field >= 0 && field < Config.SIDE) {
+            if (areaArray[row][field].type !== FieldType.BOMB) {
+                return areaArray[row][field].neighbors++;
+            }
+        }
     }
 
     const openFields = (row, field, areaArray) => {

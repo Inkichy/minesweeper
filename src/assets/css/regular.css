@@ -35,10 +35,6 @@ body::-webkit-scrollbar-thumb {
     flex-wrap: wrap;
 }
 
-.justify-content-center {
-    justify-content: center;
-}
-
 .justify-content-between {
     justify-content: space-between;
 }

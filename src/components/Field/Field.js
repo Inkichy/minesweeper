@@ -52,6 +52,19 @@ const Field = (props) => {
         return getFieldNumberClass(neighbors);
     }
 
+    const updateField = (type, status, flag, question) => {
+        props.updateField({
+            type,
+            status,
+            flag,
+            question,
+        });
+    }
+
+    const updateSmile = (smile) => {
+        props.updateSmile(smile);
+    }
+
     const leftClick = () => {
         if (!flag && !question && !endGame) {
             setStatus(true);
@@ -87,23 +100,12 @@ const Field = (props) => {
         }
     }
 
-    const updateField = (type, status, flag, question) => {
-        props.updateField({
-            type,
-            status,
-            flag,
-            question,
-        });
-    }
-
-    const updateSmile = (smile) => {
-        props.updateSmile(smile);
-    }
-
     return (
         <div onClick={() => leftClick()}
              onMouseDown={() => {
-                 updateSmile(SmilesType.SCARY)
+                 if (!flag && !question) {
+                     updateSmile(SmilesType.SCARY)
+                 }
              }}
              onMouseUp={() => {
                  updateSmile(SmilesType.NORMAL);
