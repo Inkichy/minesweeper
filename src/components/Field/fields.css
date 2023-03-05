@@ -1,0 +1,77 @@
+@import "../Smiles/smiles.css";
+
+.fields {
+    width: 35px;
+    height: 35px;
+    background: url('../../assets/img/minesweeper-sprites.png');
+    background-size: 302px;
+}
+
+.fields.hidden {
+    background-position: 0 72px;
+    cursor: pointer;
+}
+
+.fields.empty {
+    background-position: -37px 72px;
+}
+
+.fields.flag {
+    background-position: -74px 72px;
+}
+
+.fields.question {
+    background-position: -111px 72px;
+}
+
+.fields.question:hover {
+    background-position: -148px 72px;
+}
+
+.fields.bomb {
+    background-position: -185px 72px;
+}
+
+.fields.bomb-boom {
+    background-position: -221px 72px;
+}
+
+.fields.bomb-cleared {
+    background-position: -258px 72px;
+}
+
+.fields.one {
+    background-position: 0 35px;
+}
+
+.fields.two {
+    background-position: -37px 35px;
+}
+
+.fields.three {
+    background-position: -74px 35px;
+}
+
+.fields.four {
+    background-position: -111px 35px;
+}
+
+.fields.five {
+    background-position: -148px 35px;
+}
+
+.fields.six {
+    background-position: -185px 35px;
+}
+
+.fields.seven {
+    background-position: -222px 35px;
+}
+
+.fields.eight {
+    background-position: -259px 35px;
+}
+
+.fields.hidden:active {
+    background-position: -37px 72px;
+}

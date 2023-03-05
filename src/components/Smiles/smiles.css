@@ -1,0 +1,26 @@
+.smiles {
+    width: 48px;
+    height: 48px;
+    background: url('../../assets/img/minesweeper-sprites.png');
+    background-size: 255px;
+}
+
+.smiles.normal {
+    background-position: 0 -44px;
+}
+
+.smiles.scary {
+    background-position: -99px -44px;
+}
+
+.smiles.cool {
+    background-position: -148px -44px;
+}
+
+.smiles.die {
+    background-position: -198px -44px;
+}
+
+.smiles:hover {
+    background-position: -49px -44px;
+}
